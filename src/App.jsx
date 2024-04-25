@@ -1,30 +1,42 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./ui/Home";
-import Menu from "./features/menu/Menu";
+import Error from "./ui/Error";
+import Menu, { loader as menuloader } from "./features/menu/Menu";
 import Cart from "./features/cart/Cart";
 import CreateOrder from "./features/order/CreateOrder";
 import Order from "./features/order/Order";
+import AppLayout from "./ui/AppLayout";
 
+//all Routes inside AppLayout are nested routes
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "./menu",
-    element: <Menu />,
-  },
-  {
-    path: "/cart",
-    element: <Cart />,
-  },
-  {
-    path: "/order/new",
-    element: <CreateOrder />,
-  },
-  {
-    path: "/order/:orderId",
-    element: <Order />,
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/menu",
+        element: <Menu />,
+        loader: menuloader,
+        errorElement: <Error />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+
+      {
+        path: "/order/new",
+        element: <CreateOrder />,
+      },
+      {
+        path: "/order/:orderId",
+        element: <Order />,
+      },
+    ],
   },
 ]);
 
